@@ -5,6 +5,12 @@ Highway::Highway(QObject *parent)
 {
 	NumberOfCarEnterInHour = 10;
 
+	PercentageOfSlopeDistance=0.10;
+	PercentageOfAccelerationDistance=0.10;
+	PercentageOfSurfaceResistanceDistance=1;
+	PercentageOfAerodynamicResistanceDistance=1;
+	PercentageOfBendResistanceDistance=0;
+
 }
 
 Highway::~Highway()

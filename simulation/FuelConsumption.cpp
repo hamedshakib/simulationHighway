@@ -58,5 +58,5 @@ double FuelConsumption::Calculate(Car* car, Highway* highway)
 	+(highway->MassCorrectionFactorForRotationalInertiaAcceleration* car->RotationalMassOfVehicle* car->Driving* car->Acceleration)
 	+(ConvertRainfallTypeToEffectOnSurface(highway->weatherConditions)* highway->RollingResistance* car->Weight * highway->gravityAcceleration * std::cos(highway->LongitudinalSlope * 3.141592 / 180)* ConvertTemperatureToEffectOnSurface(highway->AmbientTemperature)* highway->pavementType)
 	+(0.5* ConvertRainfallTypeToEffectOnAirDensity(highway->weatherConditions)* highway->AirDensity*car->FrontalArea* highway->AerodynamicResistance* pow(ConvertSpeedToSpeedOnEffectedByWind(car->get_Speed()),2)*car->Driving)
-	+((pow(car->Weight,2)* pow(car->get_Speed(),4)*car->Driving* highway->pavementType)/(pow(highway->PathRadiusFromCentreOfGravity,2)*highway->TotalCorneringStiffness))*0
+	+((pow(car->Weight,2)* pow(car->get_Speed(),4)*car->Driving* highway->pavementType)/(pow(highway->PathRadiusFromCentreOfGravity,2)*highway->TotalCorneringStiffness))*0 
 }

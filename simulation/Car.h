@@ -15,6 +15,9 @@ public slots:
 	float get_Speed();
 	bool ChangeSpeed(int amount);
 
+	bool set_Acceleration(float acceleration);
+	float get_Acceleration();
+
 	bool set_Position(double position);
 	double get_Position();
 	bool ChangePosition(double amount);
@@ -24,6 +27,7 @@ public slots:
 
 private:
 	float m_Speed;
+	float m_Acceleration;
 	double m_Position;
 
 public:

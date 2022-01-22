@@ -31,6 +31,12 @@ public:
 
 
 public:
+	float PercentageOfSlopeDistance;
+	float PercentageOfAccelerationDistance;
+	float PercentageOfSurfaceResistanceDistance;
+	float PercentageOfAerodynamicResistanceDistance;
+	float PercentageOfBendResistanceDistance;
+
 	unsigned int NumberOfCarEnterInHour;
 	Rainfall weatherConditions;
 	int AmbientTemperature;
