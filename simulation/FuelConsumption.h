@@ -14,11 +14,12 @@ public:
 	~FuelConsumption();
 
 public:
-	static double Calculate(Car* car, Highway* highway);
+	static double Calculate( double travelledDistance,Car* car, Highway* highway);
 
 private:
 	static float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type);
 	static float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type);
 	static float ConvertTemperatureToEffectOnSurface(int temperature);
 	static float ConvertSpeedToSpeedOnEffectedByWind(float speed,float Wind=0);
+	static float ConvertTemperatureToEffectOnEngineEfficiency(int temperature);
 };

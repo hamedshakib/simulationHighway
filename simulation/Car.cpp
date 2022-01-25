@@ -1,8 +1,10 @@
 #include "Car.h"
 
-Car::Car(QObject *parent)
+Car::Car(float Weight,float FrontalArea,float EngineEfficiency, QObject *parent)
 	: QObject(parent)
 {
+
+	Length=2.600;
 }
 
 Car::~Car()
@@ -25,6 +27,49 @@ float Car::get_Speed()
 	return m_Speed;
 }
 
+bool Car::set_Position(double position)
+{
+	if (position > 0)
+	{
+		m_CarPosition.frontOfCar = position;
+		m_CarPosition.backOfCar = position - Length;
+		return true;
+	}
+	else
+		return false;
+
+}
+
+Car::CarPosition* Car::get_Position()
+{
+	CarPosition* carpos = new CarPosition();
+	carpos->backOfCar  = m_CarPosition.backOfCar;
+	carpos->frontOfCar = m_CarPosition.frontOfCar;
+	return carpos;
+}
+
+bool Car::ChangePosition(double amount)
+{
+	if (amount > 0)
+	{
+		m_CarPosition.backOfCar  += amount;
+		m_CarPosition.frontOfCar += amount;
+		return true;
+	}
+	else
+		return false;
+}
+
+void Car::set_Acceleration(float acceleration)
+{
+	m_Acceleration = acceleration;
+}
+
+float Car::get_Acceleration()
+{
+	return m_Acceleration;
+}
+
 bool Car::ChangeSpeed(int amount)
 {
 	if ((m_Speed + amount) >= 0)
@@ -36,29 +81,12 @@ bool Car::ChangeSpeed(int amount)
 		return false;
 }
 
-bool Car::set_Position(double position)
+bool Car::CheckAndApplyAcceleration(double time)
 {
-	if (position > 0)
+	if (m_Acceleration != 0)
 	{
-		m_Position = position;
-		return true;
-	}
-	else
-		return false;
-
-}
-
-double Car::get_Position()
-{
-	return m_Position;
-}
-
-bool Car::ChangePosition(double amount)
-{
-	if (amount > 0)
-	{
-		m_Position += amount;
-		return true;
+		if(ChangeSpeed(m_Acceleration *time))
+			return true;
 	}
 	else
 		return false;

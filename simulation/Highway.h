@@ -27,15 +27,15 @@ public:
 		HighLoad
 	};
 
-	double GenerateTimeUntilEnterNextCar();
-
 
 public:
-	float PercentageOfSlopeDistance;
-	float PercentageOfAccelerationDistance;
-	float PercentageOfSurfaceResistanceDistance;
-	float PercentageOfAerodynamicResistanceDistance;
-	float PercentageOfBendResistanceDistance;
+	double LenghtOfHighway = 5000;
+	double LocationOfDisorder = 4000;
+	double length_AffectedByDisorderArea;
+	float SpeedInDisruption=20;
+
+	float PercentageOfSlopeDistance=0.1;
+	float PercentageOfBendResistanceDistance=0;
 
 	unsigned int NumberOfCarEnterInHour;
 	Rainfall weatherConditions;
@@ -52,4 +52,5 @@ public:
 
 	float PathRadiusFromCentreOfGravity;
 	float TotalCorneringStiffness;
+
 };

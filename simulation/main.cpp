@@ -8,6 +8,7 @@ int main(int argc, char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
+	/*
 	Highway hiway;
 	int sum = 0;
 	for (int i = 0; i < 10; i++)
@@ -15,9 +16,9 @@ int main(int argc, char* argv[])
 		sum+=hiway.GenerateTimeUntilEnterNextCar();
 	}
 	qDebug() << sum;
-
-	//Simulation simulation(4);
-	//simulation.Run();
+	*/
+	Simulation simulation(4,3600,250);
+	simulation.Run();
 
 	return app.exec();
 }
