@@ -14,7 +14,7 @@ public:
 	Simulation(unsigned int numberOfAllRound, double SimulationTime, double WarmUpTime,QObject *parent=nullptr);
 	~Simulation();
 
-	/*
+	
 	class Event
 	{
 		enum EventType
@@ -27,13 +27,26 @@ public:
 			ExitFromDisturbedArea,
 			ExitFromHighway
 		};
+		double time;
+		EventType eventType;
+		Car* relatedCar;
 	};
-	*/
+	
+
 	enum DisruptionEvent
 	{
 		occurDisruption,
 		FixDisorder
 	};
+
+	
+
+	/*struct Events
+	{
+		double time;
+		
+	};*/
+
 
 	bool ResetAll_ForNewRound();
 	bool Run();
@@ -41,16 +54,21 @@ public:
 public slots:
 	bool SimulationOfOneRound();
 
-	float NextCarArrivalTime(Highway *highway);
-	double GenerateTimeUntilEnterNextCar(Highway* highway);
+	float NextCarArrivalTime();
+	double GenerateTimeUntilEnterNextCar();
 	void WarmUp();
 
+	int CheckAndApplyEvents();
+
 private:
+	Highway* highway;
+	float rateOfTimeIncrease=0.001;
 	unsigned int NumberOfAllRound;
 	double AllSimulationTime;
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
 	double CurrentTime;
 	QList<Car*> CarsInHighway;
+	QList<Car*> ExitedFromHighway;
 	DisruptionEvent nextDisruptionEvent;
 };

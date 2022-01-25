@@ -5,6 +5,8 @@ Car::Car(float Weight,float FrontalArea,float EngineEfficiency, QObject *parent)
 {
 
 	Length=2.600;
+	m_CarPosition.frontOfCar = 0;
+	m_CarPosition.backOfCar = m_CarPosition.frontOfCar - Length;
 }
 
 Car::~Car()
@@ -96,5 +98,17 @@ void Car::MoveCar(double time)
 {
 	double movementAmount = time * m_Speed;
 	ChangePosition(movementAmount);
+}
+
+static Car* ProcessEnterCarToHighway(Highway* highway)
+{
+	Car* car = new Car();
+	float CurrentCarSpeed = highway->entranceSpeed;
+	car->set_Speed(CurrentCarSpeed);
+	if (highway->MaximumSpeedAllowedInPlacesBeforeDisturbance > CurrentCarSpeed)
+	{
+		car->set_Acceleration(car->MaxAcceleration);
+	}
+	return car;
 }
 

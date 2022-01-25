@@ -6,6 +6,7 @@ Simulation::Simulation(unsigned int numberOfAllRound,double SimulationTime,doubl
 	NumberOfAllRound = numberOfAllRound;
 	AllSimulationTime= SimulationTime;
 	AllWarmUpTime= WarmUpTime;
+	highway = new Highway(this);
 }
 
 Simulation::~Simulation()
@@ -14,6 +15,7 @@ Simulation::~Simulation()
 
 bool Simulation::ResetAll_ForNewRound()
 {
+	highway->IsThereDisorder = false;
 	qDeleteAll(CarsInHighway);
 	CarsInHighway.clear();
 	return true;
@@ -21,6 +23,21 @@ bool Simulation::ResetAll_ForNewRound()
 
 bool Simulation::Run()
 {
+	//Scenario 1
+	for (CurrentRoundNumber = 1; CurrentRoundNumber <= NumberOfAllRound; CurrentRoundNumber++)
+	{
+		ResetAll_ForNewRound();
+		SimulationOfOneRound();
+		qDebug() << "END Round" << CurrentRoundNumber;
+	}
+
+
+
+
+
+
+
+	//Scenario 2
 	for (CurrentRoundNumber = 1 ; CurrentRoundNumber <= NumberOfAllRound; CurrentRoundNumber++)
 	{
 		ResetAll_ForNewRound();
@@ -32,10 +49,12 @@ bool Simulation::Run()
 
 bool Simulation::SimulationOfOneRound()
 {
-	for (CurrentTime = 0; CurrentTime <= AllSimulationTime; CurrentTime+=0.001)
+	WarmUp();
+	for (CurrentTime = 0; (CurrentTime = round(CurrentTime * 1000) / 1000) <= AllSimulationTime; CurrentTime+= rateOfTimeIncrease)
 	{
+		
 
-		CurrentTime = round(CurrentTime * 1000) / 1000;
+
 		if(CurrentTime==100)
 		qDebug() << CurrentTime;
 	}
@@ -44,15 +63,21 @@ bool Simulation::SimulationOfOneRound()
 
 void Simulation::WarmUp()
 {
-	for (float CurrentWarmUpTime = 0; CurrentWarmUpTime <= AllWarmUpTime; CurrentWarmUpTime += 0.001)
+	//Car* firstCar = Car::ProcessEnterCarToHighway(highway);
+	CarsInHighway.insert(0,Car::ProcessEnterCarToHighway(highway));
+	NextCarArrivalTime();
+	for (float CurrentWarmUpTime = -AllWarmUpTime;((CurrentWarmUpTime = round(CurrentWarmUpTime * 1000) / 1000))< 0; CurrentWarmUpTime += rateOfTimeIncrease)
 	{
-		CurrentWarmUpTime = round(CurrentWarmUpTime * 1000) / 1000;
+
+
+
+
 
 	}
 }
 
 
-double Simulation::GenerateTimeUntilEnterNextCar(Highway *highway)
+double Simulation::GenerateTimeUntilEnterNextCar()
 {
 	std::random_device rd;
 	std::mt19937 genenator(rd());
@@ -67,7 +92,14 @@ double Simulation::GenerateTimeUntilEnterNextCar(Highway *highway)
 	//return 0;
 }
 
-float Simulation::NextCarArrivalTime(Highway* highway)
+float Simulation::NextCarArrivalTime()
 {
-	highway
+	//highway
+	return 0;
+}
+
+int Simulation::CheckAndApplyEvents()
+{
+	if()
+	return 0;
 }

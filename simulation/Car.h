@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include "Highway.h"
 
 class Car : public QObject
 {
@@ -28,6 +29,10 @@ public:
 		ExitFromHighway
 	};
 
+	float MaxAcceleration = 2.5;
+	static Car* ProcessEnterCarToHighway(Highway* highway);
+
+
 public slots:
 	bool set_Speed(float speed);
 	float get_Speed();
@@ -44,11 +49,13 @@ public slots:
 	bool CheckAndApplyAcceleration(double time);
 
 
-private:
+private:      
 	float m_Speed;
-	float m_Acceleration;
+
 	CarPosition m_CarPosition;
 	CarEventType nextCarEventType;
+
+
 
 public:
 	float Weight;
@@ -57,6 +64,5 @@ public:
 	float FrontalArea;
 	float EngineEfficiency;
 	float Driving;
-	float Acceleration;
 	float MinimumPowerForKeepTurnOn = 10000;
 };

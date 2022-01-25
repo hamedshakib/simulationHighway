@@ -14,7 +14,7 @@ public:
 	~FuelConsumption();
 
 public:
-	static double Calculate( double travelledDistance,Car* car, Highway* highway);
+	static double Calculate(double travelledDistance,Car* car, Highway* highway);
 
 private:
 	static float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type);

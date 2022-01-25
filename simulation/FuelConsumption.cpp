@@ -9,7 +9,7 @@ FuelConsumption::~FuelConsumption()
 {
 }
 
-float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
+static float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
 {
 	switch (type)
 	{
@@ -22,7 +22,7 @@ float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
 	}
 }
 
-float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
+static float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
 {
 	switch (type)
 	{
@@ -35,7 +35,7 @@ float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
 	}
 }
 
-float ConvertTemperatureToEffectOnSurface(int temperature)
+static float ConvertTemperatureToEffectOnSurface(int temperature)
 {
 	// To Do
 	/*switch (temperature)
@@ -59,16 +59,16 @@ static float ConvertTemperatureToEffectOnEngineEfficiency(int temperature)
 	return 0;
 }
 
-double FuelConsumption::Calculate( double travelledDistance,Car* car, Highway* highway)
+static double Calculate(double travelledDistance, Car* car, Highway* highway)
 {
 	
 	double FuelConsumed = ((car->Weight * highway->gravityAcceleration * std::sin(highway->LongitudinalSlope * 3.141592 / 180)) * highway->PercentageOfSlopeDistance
-		+ (highway->MassCorrectionFactorForRotationalInertiaAcceleration * car->RotationalMassOfVehicle * car->Driving * car->Acceleration)
+		+ (highway->MassCorrectionFactorForRotationalInertiaAcceleration * car->RotationalMassOfVehicle * car->Driving * car->get_Acceleration())
 		+ (ConvertRainfallTypeToEffectOnSurface(highway->weatherConditions) * highway->RollingResistance * car->Weight * highway->gravityAcceleration * std::cos(highway->LongitudinalSlope * 3.141592 / 180) * ConvertTemperatureToEffectOnSurface(highway->AmbientTemperature) * highway->pavementType)
 		+ (0.5 * ConvertRainfallTypeToEffectOnAirDensity(highway->weatherConditions) * highway->AirDensity * car->FrontalArea * highway->AerodynamicResistance * pow(ConvertSpeedToSpeedOnEffectedByWind(car->get_Speed()), 2) * car->Driving)
 		+ ((pow(car->Weight, 2) * pow(car->get_Speed(), 4) * car->Driving * highway->pavementType) / (pow(highway->PathRadiusFromCentreOfGravity, 2) * highway->TotalCorneringStiffness)) * highway->PercentageOfBendResistanceDistance
 		+ (car->MinimumPowerForKeepTurnOn / car->get_Speed()))
-		* highway->windEffect *(1/(car->EngineEfficiency * Co));
+		* highway->windEffect *(1/(car->EngineEfficiency * ConvertTemperatureToEffectOnEngineEfficiency(highway->AmbientTemperature)));
 		
 
 	

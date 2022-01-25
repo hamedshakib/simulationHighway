@@ -28,22 +28,30 @@ public:
 	};
 
 
+
+
+	double CalculateLength_AffectedByDisorderArea();
+
+
 public:
-	double LenghtOfHighway = 5000;
-	double LocationOfDisorder = 4000;
-	double length_AffectedByDisorderArea;
-	float SpeedInDisruption=20;
+	bool IsThereDisorder;
+	double LenghtOfHighway = 5000;        //   m
+	double LocationOfDisorder = 4000;     //   m
+	double length_AffectedByDisorderArea; //   m
+	float SpeedInDisruption=7;            //   m/s
+	float entranceSpeed = 11.2;           //   m/s
+	float MaximumSpeedAllowedInPlacesBeforeDisturbance;
 
 	float PercentageOfSlopeDistance=0.1;
 	float PercentageOfBendResistanceDistance=0;
 
+	int AmbientTemperature=20;
 	unsigned int NumberOfCarEnterInHour;
-	Rainfall weatherConditions;
-	int AmbientTemperature;
+	Rainfall weatherConditions=Rainfall::NoRain;
+	TrafficSituation trafficSituation= TrafficSituation::LowLoad;
 	float LongitudinalSlope;
-	TrafficSituation trafficSituation;
-	float windEffect;
-	float AirDensity;
+	float windEffect=1;
+	float AirDensity=1.225;
 	float AerodynamicResistance;
 	float RollingResistance;
 	float pavementType;
