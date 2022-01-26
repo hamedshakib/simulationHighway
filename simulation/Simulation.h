@@ -70,5 +70,8 @@ private:
 	double CurrentTime;
 	QList<Car*> CarsInHighway;
 	QList<Car*> ExitedFromHighway;
+
+	double TimeNextCarEnter;
+	double TimeEndDisruption;
 	DisruptionEvent nextDisruptionEvent;
 };

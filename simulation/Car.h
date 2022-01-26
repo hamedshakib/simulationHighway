@@ -46,12 +46,13 @@ public slots:
 	bool ChangePosition(double amount);
 
 	void MoveCar(double time);
+	void ProcessMoveCar(double time);
 	bool CheckAndApplyAcceleration(double time);
 
 
 private:      
 	float m_Speed;
-
+	float m_Acceleration;
 	CarPosition m_CarPosition;
 	CarEventType nextCarEventType;
 

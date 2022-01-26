@@ -46,7 +46,9 @@ public:
 	float PercentageOfBendResistanceDistance=0;
 
 	int AmbientTemperature=20;
-	unsigned int NumberOfCarEnterInHour;
+	float AverageTimeBetweenTwoCarArrivals=9.49;
+
+
 	Rainfall weatherConditions=Rainfall::NoRain;
 	TrafficSituation trafficSituation= TrafficSituation::LowLoad;
 	float LongitudinalSlope;

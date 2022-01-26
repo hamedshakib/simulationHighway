@@ -100,15 +100,25 @@ void Car::MoveCar(double time)
 	ChangePosition(movementAmount);
 }
 
-static Car* ProcessEnterCarToHighway(Highway* highway)
+void Car::ProcessMoveCar(double time)
+{
+	MoveCar(time);
+	CheckAndApplyAcceleration(time);
+
+}
+
+
+Car* Car::ProcessEnterCarToHighway(Highway* highway)
 {
 	Car* car = new Car();
+	
 	float CurrentCarSpeed = highway->entranceSpeed;
 	car->set_Speed(CurrentCarSpeed);
 	if (highway->MaximumSpeedAllowedInPlacesBeforeDisturbance > CurrentCarSpeed)
 	{
 		car->set_Acceleration(car->MaxAcceleration);
 	}
+	
 	return car;
 }
 

@@ -17,6 +17,22 @@ int main(int argc, char* argv[])
 	}
 	qDebug() << sum;
 	*/
+
+	
+	/*
+	std::default_random_engine generator;
+	std::normal_distribution<double> distribution(28.48, 5.0);
+
+	for (int i = 0; i < 100; i++)
+	{
+		
+	qDebug()<<distribution(generator);
+	}
+	*/
+
+
+
+	qDebug() << "Before start";
 	Simulation simulation(4,3600,250);
 	simulation.Run();
 
