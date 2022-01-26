@@ -54,6 +54,7 @@ public:
 public slots:
 	bool SimulationOfOneRound();
 
+	void GenerateArrivalTimeOfAllCar(int count);
 	float NextCarArrivalTime();
 	double GenerateTimeUntilEnterNextCar();
 	void WarmUp();
@@ -68,10 +69,13 @@ private:
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
 	double CurrentTime;
-	QList<Car*> CarsInHighway;
+	QList<Car*> CarsInHighwaySenario1;
+	QList<Car*> CarsInHighwaySenario2;
 	QList<Car*> ExitedFromHighway;
+
+	QList<double> ListOfTimeOfEntersCars;
 
 	double TimeNextCarEnter;
 	double TimeEndDisruption;
-	DisruptionEvent nextDisruptionEvent;
+	DisruptionEvent HighwayCondition;
 };

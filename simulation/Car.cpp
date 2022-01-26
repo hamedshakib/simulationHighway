@@ -72,10 +72,11 @@ float Car::get_Acceleration()
 	return m_Acceleration;
 }
 
-bool Car::ChangeSpeed(int amount)
+bool Car::ChangeSpeed(float amount)
 {
 	if ((m_Speed + amount) >= 0)
 	{
+		//qDebug() << "did2"<< amount;
 		m_Speed += amount;
 		return true;
 	}
@@ -83,12 +84,20 @@ bool Car::ChangeSpeed(int amount)
 		return false;
 }
 
-bool Car::CheckAndApplyAcceleration(double time)
+bool Car::CheckAndApplyAcceleration(double time, Highway* highway)
 {
 	if (m_Acceleration != 0)
 	{
-		if(ChangeSpeed(m_Acceleration *time))
+		//qDebug() << "did1"<< time;
+		if (ChangeSpeed(m_Acceleration * time))
+		{
+			if (m_Speed >= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+			{
+				m_Acceleration = 0;
+				m_Speed = highway->MaximumSpeedAllowedInPlacesBeforeDisturbance;
+			}
 			return true;
+		}
 	}
 	else
 		return false;
@@ -100,11 +109,10 @@ void Car::MoveCar(double time)
 	ChangePosition(movementAmount);
 }
 
-void Car::ProcessMoveCar(double time)
+void Car::ProcessMoveCar(double time, Highway* highway)
 {
 	MoveCar(time);
-	CheckAndApplyAcceleration(time);
-
+	CheckAndApplyAcceleration(time,highway);
 }
 
 
@@ -117,6 +125,7 @@ Car* Car::ProcessEnterCarToHighway(Highway* highway)
 	if (highway->MaximumSpeedAllowedInPlacesBeforeDisturbance > CurrentCarSpeed)
 	{
 		car->set_Acceleration(car->MaxAcceleration);
+		//qDebug() <<"shh:" << car->MaxAcceleration;
 	}
 	
 	return car;

@@ -27,6 +27,18 @@ public:
 		HighLoad
 	};
 
+	struct Disorder
+	{
+		bool IsThereStillSourceOfDisorder;
+		bool IsDisorderCompletelyResolved;
+
+		double TimeOfStartOfSourceOfDisorder=0;
+		double TimeOfEndOfSourceOfDisorder=600;
+
+		double StartLocation;
+		double EndLocation;
+	};
+
 
 
 
@@ -41,6 +53,8 @@ public:
 	float SpeedInDisruption=7;            //   m/s
 	float entranceSpeed = 11.2;           //   m/s
 	float MaximumSpeedAllowedInPlacesBeforeDisturbance;
+
+	
 
 	float PercentageOfSlopeDistance=0.1;
 	float PercentageOfBendResistanceDistance=0;

@@ -36,7 +36,7 @@ public:
 public slots:
 	bool set_Speed(float speed);
 	float get_Speed();
-	bool ChangeSpeed(int amount);
+	bool ChangeSpeed(float amount);
 
 	void set_Acceleration(float acceleration);
 	float get_Acceleration();
@@ -46,8 +46,8 @@ public slots:
 	bool ChangePosition(double amount);
 
 	void MoveCar(double time);
-	void ProcessMoveCar(double time);
-	bool CheckAndApplyAcceleration(double time);
+	void ProcessMoveCar(double time, Highway* highway);
+	bool CheckAndApplyAcceleration(double time, Highway* highway);
 
 
 private:      
