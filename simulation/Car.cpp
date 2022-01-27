@@ -84,6 +84,7 @@ bool Car::ChangeSpeed(float amount)
 		return false;
 }
 
+/*
 bool Car::CheckAndApplyAcceleration(double time, Highway* highway)
 {
 	if (m_Acceleration != 0)
@@ -91,17 +92,22 @@ bool Car::CheckAndApplyAcceleration(double time, Highway* highway)
 		//qDebug() << "did1"<< time;
 		if (ChangeSpeed(m_Acceleration * time))
 		{
-			if (m_Speed >= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
-			{
-				m_Acceleration = 0;
-				m_Speed = highway->MaximumSpeedAllowedInPlacesBeforeDisturbance;
-			}
+			if (m_Acceleration>0)
+				if (m_Speed >= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+				{
+					m_Acceleration = 0;
+					m_Speed = highway->MaximumSpeedAllowedInPlacesBeforeDisturbance;
+				}
+			else if(m_Acceleration<0)
+				if(m_Speed<= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+				
 			return true;
 		}
 	}
 	else
 		return false;
 }
+*/
 
 void Car::MoveCar(double time)
 {
@@ -112,7 +118,7 @@ void Car::MoveCar(double time)
 void Car::ProcessMoveCar(double time, Highway* highway)
 {
 	MoveCar(time);
-	CheckAndApplyAcceleration(time,highway);
+	//CheckAndApplyAcceleration(time,highway);
 }
 
 
@@ -129,5 +135,63 @@ Car* Car::ProcessEnterCarToHighway(Highway* highway)
 	}
 	
 	return car;
+}
+
+/*
+bool Car::ProcessAccelerationAfterMove(double time, Highway* highway, Simulation::Disorder::DisorderStatus status)
+{
+	/*
+	if (CheckAndApplyAcceleration(time, highway))
+	{
+		if (m_Acceleration > 0) 
+		{
+			if (m_Speed >= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+			{
+				m_Acceleration = 0;
+				m_Speed = highway->MaximumSpeedAllowedInPlacesBeforeDisturbance;
+			}
+		}
+		else if (m_Acceleration < 0) 
+		{
+			if (status == Simulation::Disorder::DisorderStatus::NoDisorder) 
+			{
+				if (m_Speed <= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+				{
+					m_Acceleration = 0;
+					m_Speed= highway->MaximumSpeedAllowedInPlacesBeforeDisturbance
+				}
+			}
+			else if (status == Simulation::Disorder::DisorderStatus::sourceOfDisorderFixed)
+			{
+				if (m_Speed <= )
+			}
+		}
+
+	}
+	
+	if(status == Simulation::Disorder::DisorderStatus::NoDisorder)
+	{ 
+		if (m_Speed < highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+		{
+			m_Acceleration = MaxAcceleration;
+			ChangeSpeed(m_Acceleration * time);
+		}
+	}
+	else if (status == Simulation::Disorder::DisorderStatus::CompleteDisorder)
+	{
+
+	}
+	else if (status == Simulation::Disorder::DisorderStatus::sourceOfDisorderFixed)
+	{
+
+	}
+
+}
+*/
+
+bool Car::ApplyAcceleration(double time)
+{
+	ChangeSpeed(time * m_Acceleration);
+	return true;
 }
 

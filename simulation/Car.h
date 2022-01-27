@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include "Highway.h"
+#include "Simulation.h"
 
 class Car : public QObject
 {
@@ -47,7 +48,10 @@ public slots:
 
 	void MoveCar(double time);
 	void ProcessMoveCar(double time, Highway* highway);
-	bool CheckAndApplyAcceleration(double time, Highway* highway);
+	//bool CheckAndApplyAcceleration(double time, Highway* highway);
+	//bool ProcessAccelerationAfterMove(double time, Highway* highway,Simulation::Disorder::DisorderStatus status);
+	//bool ProcessCheckAndChangeAcceleration(double time, Highway* highway, Simulation::Disorder::DisorderStatus status);
+	bool ApplyAcceleration(double time);
 
 
 private:      

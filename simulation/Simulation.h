@@ -14,7 +14,7 @@ public:
 	Simulation(unsigned int numberOfAllRound, double SimulationTime, double WarmUpTime,QObject *parent=nullptr);
 	~Simulation();
 
-	
+	/*
 	class Event
 	{
 		enum EventType
@@ -31,21 +31,49 @@ public:
 		EventType eventType;
 		Car* relatedCar;
 	};
-	
+	*/
 
-	enum DisruptionEvent
+	/*
+	struct Disorder
 	{
-		occurDisruption,
-		FixDisorder
+		enum DisorderStatus
+		{
+			CompleteDisorder,
+			sourceOfDisorderFixed,
+			NoDisorder
+		};
+
+		DisorderStatus disorderStatus;
+		double StartingPlaceAffectedByDisorder;
+		double EndingPlaceAffectedByDisorder;
 	};
+	*/
 
-	
-
-	/*struct Events
+	class Senario
 	{
-		double time;
-		
-	};*/
+	public:
+
+		struct Disorder
+		{
+			enum DisorderStatus
+			{
+				CompleteDisorder,
+				SourceOfDisorderFixed,
+				NoDisorder
+			};
+
+			DisorderStatus disorderStatus;
+			double PlaceStartedAffectedByDisorder;
+			double PlaceEndedAffectedByDisorder;
+		};
+		Disorder disorder;
+		double TimeOfStartOfSourceOfDisorder = 0;
+		double TimeOfEndOfSourceOfDisorder = 600;
+		QList<Car*> CarsInHighwaySenario;
+		float MaximumSpeedAllowedInPlacesBeforeDisturbance = 20;
+		double LocationRangeNearToDisorder = 192;
+
+	};
 
 
 	bool ResetAll_ForNewRound();
@@ -60,6 +88,8 @@ public slots:
 	void WarmUp();
 
 	int CheckAndApplyEvents();
+	bool ProcessAcceleration(double time,Car* car,Highway *highway,Senario* senario);
+	bool ProcessDeterminetePlaceAffectedByDisorder(Senario* senario);
 
 private:
 	Highway* highway;
@@ -69,13 +99,21 @@ private:
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
 	double CurrentTime;
-	QList<Car*> CarsInHighwaySenario1;
-	QList<Car*> CarsInHighwaySenario2;
-	QList<Car*> ExitedFromHighway;
+	//QList<Car*> CarsInHighwaySenario1;
+	//QList<Car*> CarsInHighwaySenario2;
+	//QList<Car*> ExitedFromHighway;
 
 	QList<double> ListOfTimeOfEntersCars;
 
 	double TimeNextCarEnter;
-	double TimeEndDisruption;
-	DisruptionEvent HighwayCondition;
+
+
+	//double TimeOfStartOfSourceOfDisorder = 0;
+	//double TimeOfEndOfSourceOfDisorder = 600;
+
+	//Disorder Senario1_Disorder;
+	//Disorder Senario2_Disorder;
+
+	Senario *senario1,*senario2;
+
 };

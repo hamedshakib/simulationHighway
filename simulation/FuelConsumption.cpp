@@ -9,7 +9,8 @@ FuelConsumption::~FuelConsumption()
 {
 }
 
-static float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
+/*
+float FuelConsumption::ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
 {
 	switch (type)
 	{
@@ -22,7 +23,7 @@ static float ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
 	}
 }
 
-static float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
+float FuelConsumption::ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
 {
 	switch (type)
 	{
@@ -35,7 +36,7 @@ static float ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall type)
 	}
 }
 
-static float ConvertTemperatureToEffectOnSurface(int temperature)
+float FuelConsumption::ConvertTemperatureToEffectOnSurface(int temperature)
 {
 	// To Do
 	/*switch (temperature)
@@ -46,20 +47,21 @@ static float ConvertTemperatureToEffectOnSurface(int temperature)
 	}
 	*/
 
+/*
 	return 0;
 }
 
-static float ConvertSpeedToSpeedOnEffectedByWind(float speed, float Wind = 0)
+float FuelConsumption::ConvertSpeedToSpeedOnEffectedByWind(float speed, float Wind)
 {
 	return (speed * (1 + Wind));
 }
 
-static float ConvertTemperatureToEffectOnEngineEfficiency(int temperature)
+float FuelConsumption::ConvertTemperatureToEffectOnEngineEfficiency(int temperature)
 {
 	return 0;
 }
 
-static double Calculate(double travelledDistance, Car* car, Highway* highway)
+double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* highway)
 {
 	
 	double FuelConsumed = ((car->Weight * highway->gravityAcceleration * std::sin(highway->LongitudinalSlope * 3.141592 / 180)) * highway->PercentageOfSlopeDistance
@@ -74,3 +76,5 @@ static double Calculate(double travelledDistance, Car* car, Highway* highway)
 	
 	return FuelConsumed * travelledDistance;
 }
+
+*/

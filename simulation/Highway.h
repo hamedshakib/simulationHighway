@@ -27,23 +27,11 @@ public:
 		HighLoad
 	};
 
-	struct Disorder
-	{
-		bool IsThereStillSourceOfDisorder;
-		bool IsDisorderCompletelyResolved;
-
-		double TimeOfStartOfSourceOfDisorder=0;
-		double TimeOfEndOfSourceOfDisorder=600;
-
-		double StartLocation;
-		double EndLocation;
-	};
 
 
 
 
-	double CalculateLength_AffectedByDisorderArea();
-
+	//double CalculateLength_AffectedByDisorderArea();
 
 public:
 	bool IsThereDisorder;
@@ -52,6 +40,7 @@ public:
 	double length_AffectedByDisorderArea; //   m
 	float SpeedInDisruption=7;            //   m/s
 	float entranceSpeed = 11.2;           //   m/s
+	float MaxOfSpeedAllowed = 20;		  //   m/s
 	float MaximumSpeedAllowedInPlacesBeforeDisturbance;
 
 	

@@ -11,9 +11,10 @@ Highway::~Highway()
 {
 }
 
-double Highway::CalculateLength_AffectedByDisorderArea()
+/*double Highway::CalculateLength_AffectedByDisorderArea()
 {
 	return 0;
 }
+*/
 
 
