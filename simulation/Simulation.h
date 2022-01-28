@@ -98,14 +98,14 @@ private:
 	double AllSimulationTime;
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
-	double CurrentTime;
+	float CurrentTime;
 	//QList<Car*> CarsInHighwaySenario1;
 	//QList<Car*> CarsInHighwaySenario2;
 	//QList<Car*> ExitedFromHighway;
 
 	QList<double> ListOfTimeOfEntersCars;
 
-	double TimeNextCarEnter;
+	float TimeNextCarEnter;
 
 
 	//double TimeOfStartOfSourceOfDisorder = 0;

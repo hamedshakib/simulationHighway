@@ -1,8 +1,8 @@
 #include "qcoreapplication.h"
 #include <qdebug.h>
 #include "Simulation.h"
-#include "Highway.h"
-#include "Car.h"
+//#include "Highway.h"
+//#include "Car.h"
 
 
 int main(int argc, char* argv[])
@@ -32,11 +32,10 @@ int main(int argc, char* argv[])
 	*/
 
 
-	//Car* car = new Car();
 
-	qDebug() << "Before start";
-	//Simulation simulation(4,3600,250);
-	//simulation.Run();
+	//qDebug() << "Before start";
+	Simulation simulation(4,3600,250);
+	simulation.Run();
 
 	return app.exec();
 }

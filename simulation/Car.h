@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include "Highway.h"
-#include "Simulation.h"
+//#include "Simulation.h"
 
 class Car : public QObject
 {

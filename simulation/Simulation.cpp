@@ -3,6 +3,7 @@
 Simulation::Simulation(unsigned int numberOfAllRound,double SimulationTime,double WarmUpTime,QObject *parent)
 	: QObject(parent)
 {
+	rateOfTimeIncrease = round(rateOfTimeIncrease * 1000) / 1000;
 	NumberOfAllRound = numberOfAllRound;
 	AllSimulationTime= SimulationTime;
 	AllWarmUpTime= WarmUpTime;
@@ -101,18 +102,20 @@ bool Simulation::SimulationOfOneRound()
 		if (CurrentTime == senario1->TimeOfStartOfSourceOfDisorder)
 		{
 			senario1->disorder.disorderStatus = Senario::Disorder::CompleteDisorder;
-			senario2->disorder.disorderStatus = Senario::Disorder::CompleteDisorder;
+//bb			senario2->disorder.disorderStatus = Senario::Disorder::CompleteDisorder;
 		}
 		else if(CurrentTime == senario1->TimeOfEndOfSourceOfDisorder)
 		{
 			senario1->disorder.disorderStatus = Senario::Disorder::SourceOfDisorderFixed;
-			senario2->disorder.disorderStatus = Senario::Disorder::SourceOfDisorderFixed;
+//bb			senario2->disorder.disorderStatus = Senario::Disorder::SourceOfDisorderFixed;
 		}
 
 		if (TimeNextCarEnter == CurrentTime)
 		{
+			qDebug() << "Start To Create Car";
 			senario1->CarsInHighwaySenario.insert(0, Car::ProcessEnterCarToHighway(highway));
-			senario1->CarsInHighwaySenario.insert(0, Car::ProcessEnterCarToHighway(highway));
+//bb			senario2->CarsInHighwaySenario.insert(0, Car::ProcessEnterCarToHighway(highway));
+			qDebug() << "Enter!";
 			TimeNextCarEnter = NextCarArrivalTime();
 		}
 
@@ -124,12 +127,16 @@ bool Simulation::SimulationOfOneRound()
 			highway->MaximumSpeedAllowedInPlacesBeforeDisturbance = highway->MaxOfSpeedAllowed;
 		for (int carNum = (senario1->CarsInHighwaySenario.count() - 1); carNum >= 0; carNum--)
 		{
+			Car::CarPosition* carPosition= senario1->CarsInHighwaySenario[carNum]->get_Position();
 			senario1->CarsInHighwaySenario[carNum]->ProcessMoveCar(rateOfTimeIncrease, highway);
 			ProcessAcceleration(rateOfTimeIncrease, senario1->CarsInHighwaySenario[carNum], highway, senario1);
-			if (senario1->CarsInHighwaySenario[carNum]->get_Position()->backOfCar >= highway->LenghtOfHighway)
+			if (carPosition->backOfCar >= highway->LenghtOfHighway)
 			{
+				qDebug() << "delete Car";
 				senario1->CarsInHighwaySenario[carNum]->deleteLater();
+				//delete senario1->CarsInHighwaySenario[carNum];
 				senario1->CarsInHighwaySenario.removeAt(carNum);
+				qDebug() << "Exited";
 			}
 			/*if (carNum == (CarsInHighwaySenario1.count() - 1))
 			{
@@ -141,7 +148,7 @@ bool Simulation::SimulationOfOneRound()
 
 
 
-
+			delete carPosition;
 		}
 
 
@@ -154,8 +161,9 @@ bool Simulation::SimulationOfOneRound()
 
 
 
-		if(CurrentTime==100)
-		qDebug() << CurrentTime;
+		if(((int)(CurrentTime*1000))%1000==0)
+			qDebug() <<"Time:" << CurrentTime;
+		//qDebug() << senario1->CarsInHighwaySenario.count();
 	}
 	return true;
 }
@@ -185,32 +193,34 @@ void Simulation::WarmUp()
 
 		for (int carNum = (senario1->CarsInHighwaySenario.count()-1); carNum >= 0; carNum--)
 		{
+			Car::CarPosition* carPosition = senario1->CarsInHighwaySenario[carNum]->get_Position();
 			senario1->CarsInHighwaySenario[carNum]->ProcessMoveCar(rateOfTimeIncrease, highway);
 			ProcessAcceleration(rateOfTimeIncrease, senario1->CarsInHighwaySenario[carNum], highway, senario1);
 			senario2->CarsInHighwaySenario[carNum]->ProcessMoveCar(rateOfTimeIncrease, highway);
 			ProcessAcceleration(rateOfTimeIncrease, senario2->CarsInHighwaySenario[carNum], highway, senario2);
-			if (senario1->CarsInHighwaySenario[carNum]->get_Position()->backOfCar >= highway->LenghtOfHighway)
+			if (carPosition->backOfCar >= highway->LenghtOfHighway)
 			{
 				senario1->CarsInHighwaySenario[carNum]->deleteLater();
 				senario1->CarsInHighwaySenario.removeAt(carNum);
 				senario2->CarsInHighwaySenario[carNum]->deleteLater();
 				senario2->CarsInHighwaySenario.removeAt(carNum);
 			}
-			/*if (carNum == (CarsInHighwaySenario1.count() - 1))
+			if (carNum == (senario1->CarsInHighwaySenario.count() - 1))
 			{
 				//qDebug() << "Speed:" << CarsInHighwaySenario1[carNum]->get_Speed();
 				//qDebug() << carNum << " Pos:" << CarsInHighwaySenario1[carNum]->get_Position()->backOfCar << "," << CarsInHighwaySenario1[carNum]->get_Position()->frontOfCar;
 				mova = carNum;
 			}
-			*/
+			
 
 
 
-
+			delete carPosition;
 		}
 
 
 	}
+	qDebug() << "FF";
 	//qDebug() << mova << " Pos:" << senario1->CarsInHighwaySenario[mova]->get_Position()->backOfCar << "," << senario1->CarsInHighwaySenario[mova]->get_Position()->frontOfCar;
 }
 
@@ -250,7 +260,7 @@ double Simulation::GenerateTimeUntilEnterNextCar()
 
 float Simulation::NextCarArrivalTime()
 {
-	double ArrivalTime =ListOfTimeOfEntersCars[0];
+	float ArrivalTime =ListOfTimeOfEntersCars[0];
 	ListOfTimeOfEntersCars.pop_front();
 	ArrivalTime = round(ArrivalTime * 1000) / 1000;
 	return ArrivalTime;
@@ -279,6 +289,7 @@ int Simulation::CheckAndApplyEvents()
 
 bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Senario* senario)
 {
+	Car::CarPosition* carPosition = car->get_Position();
 	if (senario->disorder.disorderStatus == Senario::Disorder::NoDisorder)
 	{
 		if (car->get_Speed() < highway->MaxOfSpeedAllowed)
@@ -294,7 +305,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 	else if (senario->disorder.disorderStatus == Senario::Disorder::CompleteDisorder || senario->disorder.disorderStatus == Senario::Disorder::SourceOfDisorderFixed)
 	{
 		//complete before Disorder
-		if (car->get_Position()->frontOfCar < (senario->disorder.PlaceStartedAffectedByDisorder - senario->LocationRangeNearToDisorder))
+		if (carPosition->frontOfCar < (senario->disorder.PlaceStartedAffectedByDisorder - senario->LocationRangeNearToDisorder))
 		{
 			//senario 2 In Enter
 			if (car->get_Speed() < highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
@@ -302,7 +313,8 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 				car->set_Acceleration(car->MaxAcceleration);
 			}
 			//senario 1 or 2
-			else if (car->get_Speed() == highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+//			else if (car->get_Speed() == highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
+/*need eslah*/ else if (abs(car->get_Speed() - highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)< (car->MaxAcceleration * rateOfTimeIncrease))
 			{
 				car->set_Acceleration(0);
 			}
@@ -313,7 +325,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 			}
 		}
 		//near Disorder
-		else if (car->get_Position()->frontOfCar < (senario->disorder.PlaceStartedAffectedByDisorder))
+		else if (carPosition->frontOfCar < (senario->disorder.PlaceStartedAffectedByDisorder))
 		{
 			//senario 1 and 2
 			if (car->get_Speed() > highway->SpeedInDisruption)
@@ -323,16 +335,16 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 			//senario 1 and 2 In Reached to speed of Disorder
 			else if (car->get_Speed() == highway->SpeedInDisruption)
 			{
-				car->set_Acceleration(-1 * car->MaxAcceleration);
+				car->set_Acceleration(0);
 			}
 		}
 		//in Disorder
-		else if (car->get_Position()->frontOfCar < (senario->disorder.PlaceEndedAffectedByDisorder))
+		else if (carPosition->frontOfCar < (senario->disorder.PlaceEndedAffectedByDisorder))
 		{
 			car->set_Acceleration(0);
 		}
 		//after Disorder
-		else if (car->get_Position()->backOfCar >= (senario->disorder.PlaceEndedAffectedByDisorder))
+		else if (carPosition->backOfCar >= (senario->disorder.PlaceEndedAffectedByDisorder))
 		{
 			if (car->get_Speed() < highway->MaxOfSpeedAllowed)
 			{
@@ -352,7 +364,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 
 
 
-
+	delete carPosition;
 	car->ApplyAcceleration(time);
 	return true;
 }
