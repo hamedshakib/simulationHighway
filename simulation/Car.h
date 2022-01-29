@@ -46,8 +46,8 @@ public slots:
 	CarPosition* get_Position();
 	bool ChangePosition(double amount);
 
-	void MoveCar(double time);
-	void ProcessMoveCar(double time, Highway* highway);
+	double MoveCar(double time);
+	double ProcessMoveCar(double time, Highway* highway);
 	//bool CheckAndApplyAcceleration(double time, Highway* highway);
 	//bool ProcessAccelerationAfterMove(double time, Highway* highway,Simulation::Disorder::DisorderStatus status);
 	//bool ProcessCheckAndChangeAcceleration(double time, Highway* highway, Simulation::Disorder::DisorderStatus status);

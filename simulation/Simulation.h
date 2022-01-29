@@ -5,6 +5,7 @@
 #include <qlist.h>
 #include "Car.h"
 #include "Highway.h"
+#include "FuelConsumption.h"
 
 class Simulation : public QObject
 {
@@ -70,9 +71,11 @@ public:
 		double TimeOfStartOfSourceOfDisorder = 0;
 		double TimeOfEndOfSourceOfDisorder = 600;
 		QList<Car*> CarsInHighwaySenario;
-		float MaximumSpeedAllowedInPlacesBeforeDisturbance = 20;
-		double LocationRangeNearToDisorder = 192;
-
+		float MaximumSpeedAllowedInPlacesBeforeDisturbance;
+		//double LocationRangeNearToDisorder = 192;
+//		double MaximumDistanceToSlowDownForDisturbance = 90;
+		double MaximumDistanceToSlowDownForDisturbance = 192;
+		float TotalFuelConsumption;
 	};
 
 

@@ -9,7 +9,7 @@ FuelConsumption::~FuelConsumption()
 {
 }
 
-/*
+
 float FuelConsumption::ConvertRainfallTypeToEffectOnSurface(Highway::Rainfall type)
 {
 	switch (type)
@@ -38,17 +38,47 @@ float FuelConsumption::ConvertRainfallTypeToEffectOnAirDensity(Highway::Rainfall
 
 float FuelConsumption::ConvertTemperatureToEffectOnSurface(int temperature)
 {
-	// To Do
-	/*switch (temperature)
-	{
-	case 10
-	default:
-		break;
-	}
-	*/
+	float fahrenheitDegree = (temperature*1.6)+32;
+	float effect;
+	if (fahrenheitDegree >= 22.5 && fahrenheitDegree < 27.5)
+		effect = 1.1351;
+	else if (fahrenheitDegree >= 27.5 && fahrenheitDegree < 32.5)
+		effect = 1.1183;
+	else if (fahrenheitDegree >= 32.5 && fahrenheitDegree < 37.5)
+		effect = 1.1018;
+	else if (fahrenheitDegree >= 37.5 && fahrenheitDegree < 42.5)
+		effect = 1.0855;
+	else if (fahrenheitDegree >= 42.5 && fahrenheitDegree < 47.5)
+		effect = 1.0694;
+	else if (fahrenheitDegree >= 47.5 && fahrenheitDegree < 52.5)
+		effect = 1.0536;
+	else if (fahrenheitDegree >= 52.5 && fahrenheitDegree < 57.5)
+		effect = 1.0380;
+	else if (fahrenheitDegree >= 57.5 && fahrenheitDegree < 62.5)
+		effect = 1.0226;
+	else if (fahrenheitDegree >= 62.5 && fahrenheitDegree < 67.5)
+		effect = 1.0075;
+	else if (fahrenheitDegree >= 67.5 && fahrenheitDegree < 72.5)
+		effect = 1.0000;
+	else if (fahrenheitDegree >= 72.5 && fahrenheitDegree < 77.5)
+		effect = 1.0000;
+	else if (fahrenheitDegree >= 77.5 && fahrenheitDegree < 82.5)
+		effect = 1.0000;
+	else if (fahrenheitDegree >= 82.5 && fahrenheitDegree < 87.5)
+		effect = 1.0000;
+	else if (fahrenheitDegree >= 87.5 && fahrenheitDegree < 92.5)
+		effect = 1.0099;
+	else if (fahrenheitDegree >= 92.5 && fahrenheitDegree < 97.5)
+		effect = 1.0242;
+	else if (fahrenheitDegree >= 97.5 && fahrenheitDegree < 102.5)
+		effect = 1.0387;
+	else if (fahrenheitDegree >= 102.5 && fahrenheitDegree < 107.5)
+		effect = 1.0534;
+	else if (fahrenheitDegree >= 107.5 && fahrenheitDegree < 112.5)
+		effect = 1.0683;
 
-/*
-	return 0;
+
+	return effect;
 }
 
 float FuelConsumption::ConvertSpeedToSpeedOnEffectedByWind(float speed, float Wind)
@@ -58,7 +88,7 @@ float FuelConsumption::ConvertSpeedToSpeedOnEffectedByWind(float speed, float Wi
 
 float FuelConsumption::ConvertTemperatureToEffectOnEngineEfficiency(int temperature)
 {
-	return 0;
+	return 1-((float)(temperature - 10) * 0.0005);
 }
 
 double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* highway)
@@ -77,4 +107,4 @@ double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* h
 	return FuelConsumed * travelledDistance;
 }
 
-*/
+

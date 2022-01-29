@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include "Highway.h"
-//#include "Car.h"
+#include "Car.h"
 #include <math.h>
 
 class FuelConsumption : public QObject
@@ -13,7 +13,7 @@ public:
 	FuelConsumption(QObject *parent);
 	~FuelConsumption();
 
-/*
+
 public:
 	static double Calculate(double travelledDistance,Car* car, Highway* highway);
 
@@ -23,5 +23,5 @@ private:
 	static float ConvertTemperatureToEffectOnSurface(int temperature);
 	static float ConvertSpeedToSpeedOnEffectedByWind(float speed,float Wind=0);
 	static float ConvertTemperatureToEffectOnEngineEfficiency(int temperature);
-	*/
+	
 };

@@ -109,15 +109,18 @@ bool Car::CheckAndApplyAcceleration(double time, Highway* highway)
 }
 */
 
-void Car::MoveCar(double time)
+double Car::MoveCar(double time)
 {
 	double movementAmount = time * m_Speed;
-	ChangePosition(movementAmount);
+	if (ChangePosition(movementAmount))
+		return movementAmount;
+	else
+		return 0;
 }
 
-void Car::ProcessMoveCar(double time, Highway* highway)
+double Car::ProcessMoveCar(double time, Highway* highway)
 {
-	MoveCar(time);
+	return MoveCar(time);
 	//CheckAndApplyAcceleration(time,highway);
 }
 
