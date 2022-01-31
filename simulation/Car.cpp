@@ -3,8 +3,11 @@
 Car::Car(float Weight,float FrontalArea,float EngineEfficiency, QObject *parent)
 	: QObject(parent)
 {
+	this->Weight = Weight;
+	this->FrontalArea = FrontalArea;
+	this->EngineEfficiency = EngineEfficiency;
+	this->RotationalMassOfVehicle = Weight;
 
-	Length=2.600;
 	m_CarPosition.frontOfCar = 0;
 	m_CarPosition.backOfCar = m_CarPosition.frontOfCar - Length;
 }

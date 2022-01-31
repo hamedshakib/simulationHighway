@@ -103,7 +103,7 @@ double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* h
 		* highway->windEffect *(1/(car->EngineEfficiency * ConvertTemperatureToEffectOnEngineEfficiency(highway->AmbientTemperature)));
 		
 
-	
+	//qDebug() << "U1=" << (car->Weight * highway->gravityAcceleration * std::sin(highway->LongitudinalSlope * 3.141592 / 180)) * highway->PercentageOfSlopeDistance << " Sum:" << FuelConsumed;
 	return FuelConsumed * travelledDistance;
 }
 

@@ -82,11 +82,6 @@ bool Simulation::Run()
 	//qDebug() << "Run";
 	for (CurrentRoundNumber = 1; CurrentRoundNumber <= NumberOfAllRound; CurrentRoundNumber++)
 	{
-		if (CurrentRoundNumber > 1)
-		{
-			qDebug() << " fuel Consumption senaroi 1:" << senario1->TotalFuelConsumption;
-			qDebug() << " fuel Consumption senaroi 2:" << senario2->TotalFuelConsumption;
-		}
 		ResetAll_ForNewRound();
 		GenerateArrivalTimeOfAllCar(1000);
 		SimulationOfOneRound();
@@ -94,6 +89,8 @@ bool Simulation::Run()
 		
 		qDebug() << "END Round" << CurrentRoundNumber;
 
+		qDebug() << " fuel Consumption senaroi 1:" << senario1->TotalFuelConsumption;
+		qDebug() << " fuel Consumption senaroi 2:" << senario2->TotalFuelConsumption;
 
 
 
@@ -482,6 +479,7 @@ bool Simulation::ProcessDeterminetePlaceAffectedByDisorder(Senario* senario)
 	else if (senario->disorder.disorderStatus == Senario::Disorder::SourceOfDisorderFixed)
 	{
 		bool IsThereCarInDisorder = false;
+		double PlaceEnded =senario->disorder.PlaceEndedAffectedByDisorder;
 		for (int carNum = 0; carNum < senario->CarsInHighwaySenario.count(); carNum++)
 		{
 			if (senario->CarsInHighwaySenario[carNum]->get_Speed() == highway->SpeedInDisruption)
@@ -489,13 +487,27 @@ bool Simulation::ProcessDeterminetePlaceAffectedByDisorder(Senario* senario)
 				Car::CarPosition* carPos = senario->CarsInHighwaySenario[carNum]->get_Position();
 				if (IsThereCarInDisorder == false)
 				{
-					senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar + 1;
+					senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar - 1;
 					IsThereCarInDisorder = true;
 				}
-				senario->disorder.PlaceStartedAffectedByDisorder= carPos->frontOfCar;
+				if (carPos->frontOfCar < PlaceEnded && carPos->frontOfCar< senario->disorder.PlaceEndedAffectedByDisorder)
+				{
+					PlaceEnded = carPos->frontOfCar;
+				}
+				/*
+				//change
+				Car* lastcar;
+				if (lastcar->carPos->backOfCar > senario->disorder.PlaceEndedAffectedByDisorder)
+				{
+
+				}
+				*/
+
+
 				delete carPos;
 			}
 		}
+		senario->disorder.PlaceEndedAffectedByDisorder = PlaceEnded;
 		if (IsThereCarInDisorder == false)
 		{
 			senario->disorder.disorderStatus = Senario::Disorder::NoDisorder;

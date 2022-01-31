@@ -66,6 +66,7 @@ public:
 			DisorderStatus disorderStatus;
 			double PlaceStartedAffectedByDisorder;
 			double PlaceEndedAffectedByDisorder;
+			Car* lastCarInDisorder;
 		};
 		Disorder disorder;
 		double TimeOfStartOfSourceOfDisorder = 0;

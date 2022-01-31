@@ -64,10 +64,10 @@ private:
 
 public:
 	float Weight;
-	float Length;
+	float Length=2.600;
 	float RotationalMassOfVehicle;
 	float FrontalArea;
 	float EngineEfficiency;
-	float Driving;
+	float Driving=1;
 	float MinimumPowerForKeepTurnOn = 10000;
 };

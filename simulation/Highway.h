@@ -54,16 +54,16 @@ public:
 
 	Rainfall weatherConditions=Rainfall::NoRain;
 	TrafficSituation trafficSituation= TrafficSituation::LowLoad;
-	float LongitudinalSlope;
+	float LongitudinalSlope=10;
 	float windEffect=1;
 	float AirDensity=1.225;
-	float AerodynamicResistance;
-	float RollingResistance;
-	float pavementType;
-	float MassCorrectionFactorForRotationalInertiaAcceleration;
-	float gravityAcceleration;
+	float AerodynamicResistance=0.35;
+	float RollingResistance=0.01;
+	float pavementType=1;
+	float MassCorrectionFactorForRotationalInertiaAcceleration=1.05;
+	float gravityAcceleration=9.81;
 
-	float PathRadiusFromCentreOfGravity;
-	float TotalCorneringStiffness;
+	float PathRadiusFromCentreOfGravity=99999;
+	float TotalCorneringStiffness=99999;
 
 };
