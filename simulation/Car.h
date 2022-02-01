@@ -31,6 +31,7 @@ public:
 	};
 
 	float MaxAcceleration = 2.5;
+	float DriverReactionTime=2;
 	static Car* ProcessEnterCarToHighway(Highway* highway);
 
 
@@ -48,6 +49,9 @@ public slots:
 
 	double MoveCar(double time);
 	double ProcessMoveCar(double time, Highway* highway);
+
+	bool StartReactionTime();
+	float get_RemainingReactionTime();
 	//bool CheckAndApplyAcceleration(double time, Highway* highway);
 	//bool ProcessAccelerationAfterMove(double time, Highway* highway,Simulation::Disorder::DisorderStatus status);
 	//bool ProcessCheckAndChangeAcceleration(double time, Highway* highway, Simulation::Disorder::DisorderStatus status);
@@ -57,6 +61,7 @@ public slots:
 private:      
 	float m_Speed;
 	float m_Acceleration;
+	float m_RemainingReactionTime;
 	CarPosition m_CarPosition;
 	CarEventType nextCarEventType;
 

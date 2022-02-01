@@ -201,3 +201,12 @@ bool Car::ApplyAcceleration(double time)
 	return true;
 }
 
+bool Car::StartReactionTime()
+{
+
+}
+float Car::get_RemainingReactionTime()
+{
+
+}
+

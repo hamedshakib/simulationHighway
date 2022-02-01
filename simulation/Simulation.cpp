@@ -36,6 +36,8 @@ bool Simulation::ResetAll_ForNewRound()
 	senario2->disorder.PlaceStartedAffectedByDisorder = highway->LocationOfDisorder;
 	senario1->disorder.PlaceEndedAffectedByDisorder = highway->LocationOfDisorder;
 	senario2->disorder.PlaceEndedAffectedByDisorder = highway->LocationOfDisorder;
+	senario1->disorder.lastCarInDisorder = nullptr;
+	senario2->disorder.lastCarInDisorder = nullptr;
 	senario1->TotalFuelConsumption = 0;
 	senario2->TotalFuelConsumption = 0;
 	//qDeleteAll(CarsInHighwaySenario1);
@@ -478,40 +480,65 @@ bool Simulation::ProcessDeterminetePlaceAffectedByDisorder(Senario* senario)
 	}
 	else if (senario->disorder.disorderStatus == Senario::Disorder::SourceOfDisorderFixed)
 	{
-		bool IsThereCarInDisorder = false;
-		double PlaceEnded =senario->disorder.PlaceEndedAffectedByDisorder;
+		bool IsThereCarInDisorder = true;
 		for (int carNum = 0; carNum < senario->CarsInHighwaySenario.count(); carNum++)
 		{
 			if (senario->CarsInHighwaySenario[carNum]->get_Speed() == highway->SpeedInDisruption)
 			{
 				Car::CarPosition* carPos = senario->CarsInHighwaySenario[carNum]->get_Position();
-				if (IsThereCarInDisorder == false)
-				{
-					senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar - 1;
-					IsThereCarInDisorder = true;
-				}
-				if (carPos->frontOfCar < PlaceEnded && carPos->frontOfCar< senario->disorder.PlaceEndedAffectedByDisorder)
-				{
-					PlaceEnded = carPos->frontOfCar;
-				}
-				/*
-				//change
-				Car* lastcar;
-				if (lastcar->carPos->backOfCar > senario->disorder.PlaceEndedAffectedByDisorder)
-				{
-
-				}
-				*/
-
-
+				senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar - 1;
+				IsThereCarInDisorder = true;
 				delete carPos;
+				break;
 			}
 		}
-		senario->disorder.PlaceEndedAffectedByDisorder = PlaceEnded;
-		if (IsThereCarInDisorder == false)
+
+
+		//change
+		if (senario->disorder.lastCarInDisorder != nullptr)
+		{
+			Car::CarPosition* LastCarPos = senario->disorder.lastCarInDisorder->get_Position();
+			if (LastCarPos->backOfCar > senario->disorder.PlaceEndedAffectedByDisorder)
+			{
+				//find new last car in Disorder
+				for (int carNum = senario->CarsInHighwaySenario.count() - 1; carNum >= 0; carNum--)
+				{
+					Car::CarPosition* CarPos = senario->CarsInHighwaySenario[carNum]->get_Position();
+					if (senario->CarsInHighwaySenario[carNum]->get_Speed() == highway->SpeedInDisruption && CarPos->backOfCar< senario->disorder.PlaceEndedAffectedByDisorder)
+					{
+						senario->disorder.lastCarInDisorder = senario->CarsInHighwaySenario[carNum];
+						senario->disorder.PlaceEndedAffectedByDisorder = CarPos->backOfCar - 1;
+						delete CarPos;
+						break;
+					}
+					delete CarPos;
+				}
+			}
+			delete LastCarPos;
+
+
+		}
+		else if (senario->disorder.lastCarInDisorder == nullptr)
+		{
+			for (int carNum = senario->CarsInHighwaySenario.count() - 1; carNum >= 0; carNum--)
+			{
+				if (senario->CarsInHighwaySenario[carNum]->get_Speed() == highway->SpeedInDisruption)
+				{
+					senario->disorder.lastCarInDisorder = senario->CarsInHighwaySenario[carNum];
+					Car::CarPosition* LastCarPos = senario->CarsInHighwaySenario[carNum]->get_Position();
+					senario->disorder.PlaceEndedAffectedByDisorder=LastCarPos->backOfCar - 1;
+					delete LastCarPos;
+					break;
+				}
+			}
+		}
+
+
+		if (IsThereCarInDisorder == false || senario->disorder.PlaceStartedAffectedByDisorder== senario->disorder.PlaceEndedAffectedByDisorder)
 		{
 			senario->disorder.disorderStatus = Senario::Disorder::NoDisorder;
 		}
+		
 	}
 	
 	return 0;
