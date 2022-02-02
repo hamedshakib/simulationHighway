@@ -27,17 +27,10 @@ public:
 		HighLoad
 	};
 
-
-
-
-
-	//double CalculateLength_AffectedByDisorderArea();
-
 public:
 	bool IsThereDisorder;
 	double LenghtOfHighway = 5000;        //   m
 	double LocationOfDisorder = 4000;     //   m
-	double length_AffectedByDisorderArea; //   m
 	float mimimumDistanceBetweenCars=1;   //   m
 	float SpeedInDisruption=7;            //   m/s
 	float entranceSpeed = 11.2;           //   m/s

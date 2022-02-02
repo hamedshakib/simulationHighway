@@ -2,7 +2,6 @@
 
 #include <QObject>
 #include "Highway.h"
-//#include "Simulation.h"
 #include "qsharedpointer.h"
 
 class Car : public QObject
@@ -31,19 +30,6 @@ public:
 		bool StartReactionTime();
 		float get_RemainingReactionTime();
 	};
-
-	/*
-	enum CarEventType
-	{
-		EnterToHighway,
-		InitialReductionSpeed,
-		EndOfInitialReductionSpeed,
-		ApproachingDisturbedArea,
-		ReachingDisturbedArea,
-		ExitFromDisturbedArea,
-		ExitFromHighway
-	};
-	*/
 	
 	float MaxAcceleration = 2.5;
 	static Car* ProcessEnterCarToHighway(Highway* highway);
@@ -66,9 +52,6 @@ public slots:
 
 	DriverReaction get_DriverReaction();
 	bool CheckAndApply_ChangeAccelerationByDriver(double time);
-	//bool CheckAndApplyAcceleration(double time, Highway* highway);
-	//bool ProcessAccelerationAfterMove(double time, Highway* highway,Simulation::Disorder::DisorderStatus status);
-	//bool ProcessCheckAndChangeAcceleration(double time, Highway* highway, Simulation::Disorder::DisorderStatus status);
 	bool ApplyAcceleration(double time);
 
 
@@ -77,7 +60,6 @@ private:
 	float m_Acceleration;
 	DriverReaction m_Reaction;
 	CarPosition m_CarPosition;
-	//CarEventType nextCarEventType;
 
 
 

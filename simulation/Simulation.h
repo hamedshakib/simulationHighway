@@ -15,40 +15,7 @@ public:
 	Simulation(unsigned int numberOfAllRound, double MaxSimulationTime, double WarmUpTime,QObject *parent=nullptr);
 	~Simulation();
 
-	/*
-	class Event
-	{
-		enum EventType
-		{
-			EnterToHighway,
-			InitialReductionSpeed,
-			EndOfInitialReductionSpeed,
-			ApproachingDisturbedArea,
-			ReachingDisturbedArea,
-			ExitFromDisturbedArea,
-			ExitFromHighway
-		};
-		double time;
-		EventType eventType;
-		Car* relatedCar;
-	};
-	*/
 
-	/*
-	struct Disorder
-	{
-		enum DisorderStatus
-		{
-			CompleteDisorder,
-			sourceOfDisorderFixed,
-			NoDisorder
-		};
-
-		DisorderStatus disorderStatus;
-		double StartingPlaceAffectedByDisorder;
-		double EndingPlaceAffectedByDisorder;
-	};
-	*/
 
 	class Senario
 	{
@@ -74,8 +41,6 @@ public:
 		double TimeOfEndOfSourceOfDisorder = 900;
 		QList<Car*> CarsInHighwaySenario;
 		float MaximumSpeedAllowedInPlacesBeforeDisturbance;
-		//double LocationRangeNearToDisorder = 192;
-//		double MaximumDistanceToSlowDownForDisturbance = 90;
 		double MaximumDistanceToSlowDownForDisturbance = 192;
 		float TotalFuelConsumption;
 	};
@@ -104,20 +69,10 @@ private:
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
 	float CurrentTime;
-	//QList<Car*> CarsInHighwaySenario1;
-	//QList<Car*> CarsInHighwaySenario2;
-	//QList<Car*> ExitedFromHighway;
 
 	QList<double> ListOfTimeOfEntersCars;
 
 	float TimeNextCarEnter;
-
-
-	//double TimeOfStartOfSourceOfDisorder = 0;
-	//double TimeOfEndOfSourceOfDisorder = 600;
-
-	//Disorder Senario1_Disorder;
-	//Disorder Senario2_Disorder;
 
 	Senario *senario1,*senario2;
 
