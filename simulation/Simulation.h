@@ -12,7 +12,7 @@ class Simulation : public QObject
 	Q_OBJECT
 
 public:
-	Simulation(unsigned int numberOfAllRound, double SimulationTime, double WarmUpTime,QObject *parent=nullptr);
+	Simulation(unsigned int numberOfAllRound, double MaxSimulationTime, double WarmUpTime,QObject *parent=nullptr);
 	~Simulation();
 
 	/*
@@ -64,6 +64,7 @@ public:
 			};
 
 			DisorderStatus disorderStatus;
+			double MaxLengthOfDisorder;
 			double PlaceStartedAffectedByDisorder;
 			double PlaceEndedAffectedByDisorder;
 			Car* lastCarInDisorder;
@@ -99,7 +100,7 @@ private:
 	Highway* highway;
 	float rateOfTimeIncrease=0.001;
 	unsigned int NumberOfAllRound;
-	double AllSimulationTime;
+	double MaxMainSimulationTime;
 	double AllWarmUpTime;
 	unsigned int CurrentRoundNumber;
 	float CurrentTime;

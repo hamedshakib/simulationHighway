@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	Simulation simulation(10,1200,250);
+	Simulation simulation(10,1500,250);
 	simulation.Run();
 
 	return app.exec();
