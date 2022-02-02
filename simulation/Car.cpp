@@ -3,6 +3,7 @@
 Car::Car(float Weight,float FrontalArea,float EngineEfficiency, QObject *parent)
 	: QObject(parent)
 {
+
 	this->Weight = Weight;
 	this->FrontalArea = FrontalArea;
 	this->EngineEfficiency = EngineEfficiency;
@@ -10,10 +11,14 @@ Car::Car(float Weight,float FrontalArea,float EngineEfficiency, QObject *parent)
 
 	m_CarPosition.frontOfCar = 0;
 	m_CarPosition.backOfCar = m_CarPosition.frontOfCar - Length;
+
+	m_Reaction.RemainingReactionTime = 0;
+	m_Reaction.IsInDriverReaction = false;
 }
 
 Car::~Car()
 {
+	
 }
 
 bool Car::set_Speed(float speed)
@@ -65,9 +70,29 @@ bool Car::ChangePosition(double amount)
 		return false;
 }
 
-void Car::set_Acceleration(float acceleration)
+void Car::set_Acceleration(float acceleration, bool NeedReactTime)
 {
-	m_Acceleration = acceleration;
+	if (NeedReactTime == false)
+	{
+		m_Acceleration = acceleration;
+		return;
+	}
+	else
+	{
+		if (m_Reaction.IsInDriverReaction == false)
+		{
+			m_Reaction.FutureAcceleration = acceleration;
+			m_Reaction.StartReactionTime();
+		}
+		else if (m_Reaction.IsInDriverReaction == true)
+		{
+			if (m_Reaction.FutureAcceleration != acceleration)
+			{
+				m_Reaction.FutureAcceleration = acceleration;
+				m_Reaction.StartReactionTime();
+			}
+		}
+	}
 }
 
 float Car::get_Acceleration()
@@ -136,6 +161,7 @@ Car* Car::ProcessEnterCarToHighway(Highway* highway)
 	car->set_Speed(CurrentCarSpeed);
 	if (highway->MaximumSpeedAllowedInPlacesBeforeDisturbance > CurrentCarSpeed)
 	{
+
 		car->set_Acceleration(car->MaxAcceleration);
 		//qDebug() <<"shh:" << car->MaxAcceleration;
 	}
@@ -201,12 +227,36 @@ bool Car::ApplyAcceleration(double time)
 	return true;
 }
 
-bool Car::StartReactionTime()
+bool Car::DriverReaction::StartReactionTime()
 {
-
+	//m_RemainingReactionTime = 
+	RemainingReactionTime = MaxDriverReactionTime;
+	IsInDriverReaction = true;
+	return true;
 }
-float Car::get_RemainingReactionTime()
+float Car::DriverReaction::get_RemainingReactionTime()
 {
+	return RemainingReactionTime;
+}
 
+bool Car::CheckAndApply_ChangeAccelerationByDriver(double time)
+{
+	if (m_Reaction.IsInDriverReaction == true)
+	{
+		m_Reaction.RemainingReactionTime -= time;
+		if (m_Reaction.RemainingReactionTime <= 0)
+		{
+			m_Acceleration = m_Reaction.FutureAcceleration;
+			m_Reaction.IsInDriverReaction = false;
+			m_Reaction.RemainingReactionTime = 0;
+			return true;
+		}
+	}
+	return false;
+}
+
+Car::DriverReaction Car::get_DriverReaction()
+{
+	return m_Reaction;
 }
 

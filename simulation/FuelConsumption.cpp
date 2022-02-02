@@ -95,7 +95,7 @@ double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* h
 {
 	
 	double FuelConsumed = ((car->Weight * highway->gravityAcceleration * std::sin(highway->LongitudinalSlope * 3.141592 / 180)) * highway->PercentageOfSlopeDistance
-		+ (highway->MassCorrectionFactorForRotationalInertiaAcceleration * car->RotationalMassOfVehicle * car->Driving * car->get_Acceleration())
+		+ (highway->MassCorrectionFactorForRotationalInertiaAcceleration * car->RotationalMassOfVehicle * car->Driving * (car->get_Acceleration() > 0? car->get_Acceleration(): 0))
 		+ (ConvertRainfallTypeToEffectOnSurface(highway->weatherConditions) * highway->RollingResistance * car->Weight * highway->gravityAcceleration * std::cos(highway->LongitudinalSlope * 3.141592 / 180) * ConvertTemperatureToEffectOnSurface(highway->AmbientTemperature) * highway->pavementType)
 		+ (0.5 * ConvertRainfallTypeToEffectOnAirDensity(highway->weatherConditions) * highway->AirDensity * car->FrontalArea * highway->AerodynamicResistance * pow(ConvertSpeedToSpeedOnEffectedByWind(car->get_Speed()), 2) * car->Driving)
 		+ ((pow(car->Weight, 2) * pow(car->get_Speed(), 4) * car->Driving * highway->pavementType) / (pow(highway->PathRadiusFromCentreOfGravity, 2) * highway->TotalCorneringStiffness)) * highway->PercentageOfBendResistanceDistance

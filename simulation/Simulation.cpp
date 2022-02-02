@@ -366,13 +366,14 @@ int Simulation::CheckAndApplyEvents()
 
 bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Senario* senario)
 {
+	car->CheckAndApply_ChangeAccelerationByDriver(time);
 	Car::CarPosition* carPosition = car->get_Position();
 	//No Disorder
 	if (senario->disorder.disorderStatus == Senario::Disorder::NoDisorder)
 	{
 		if (car->get_Speed() < highway->MaxOfSpeedAllowed)
 		{
-			car->set_Acceleration(car->MaxAcceleration);
+			car->set_Acceleration(car->MaxAcceleration,true);
 		}
 		else if (car->get_Speed() >= highway->MaxOfSpeedAllowed)
 		{
@@ -388,7 +389,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 			//senario 2 In Enter
 			if (car->get_Speed() < highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
 			{
-				car->set_Acceleration(car->MaxAcceleration);
+				car->set_Acceleration(car->MaxAcceleration,true);
 			}
 			//senario 1 or 2
 //			else if (car->get_Speed() == highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
@@ -400,7 +401,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 			//senario 1 In keep to driving suddenly occer Disorder
 			else if (car->get_Speed() > highway->MaximumSpeedAllowedInPlacesBeforeDisturbance)
 			{
-				car->set_Acceleration(-1*car->MaxAcceleration);
+				car->set_Acceleration(-1*car->MaxAcceleration,true);
 			}
 		}
 		//near Disorder
@@ -409,7 +410,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 			//senario 1 and 2
 			if (car->get_Speed() > highway->SpeedInDisruption)
 			{
-				car->set_Acceleration(-1 * car->MaxAcceleration);
+				car->set_Acceleration(-1 * car->MaxAcceleration,true);
 			}
 			//senario 1 and 2 In Reached to speed of Disorder
 			else if (abs(car->get_Speed()- highway->SpeedInDisruption)< (car->MaxAcceleration * rateOfTimeIncrease))
@@ -430,7 +431,7 @@ bool Simulation::ProcessAcceleration(double time, Car* car,Highway* highway, Sen
 		{
 			if (car->get_Speed() < highway->MaxOfSpeedAllowed)
 			{
-				car->set_Acceleration(car->MaxAcceleration);
+				car->set_Acceleration(car->MaxAcceleration,true);
 			}
 			else if (car->get_Speed() >= highway->MaxOfSpeedAllowed)
 			{
@@ -468,6 +469,8 @@ bool Simulation::ProcessDeterminetePlaceAffectedByDisorder(Senario* senario)
 			{
 				Car::CarPosition* carPos = senario->CarsInHighwaySenario[carNum]->get_Position();
 				senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar- 1;
+				if (senario->disorder.PlaceStartedAffectedByDisorder > senario->disorder.PlaceEndedAffectedByDisorder)
+					senario->disorder.PlaceStartedAffectedByDisorder = senario->disorder.PlaceEndedAffectedByDisorder;
 				IsThereCarInDisorder = true;
 				delete carPos;
 				break;
@@ -487,6 +490,8 @@ bool Simulation::ProcessDeterminetePlaceAffectedByDisorder(Senario* senario)
 			{
 				Car::CarPosition* carPos = senario->CarsInHighwaySenario[carNum]->get_Position();
 				senario->disorder.PlaceStartedAffectedByDisorder = carPos->backOfCar - 1;
+				if (senario->disorder.PlaceStartedAffectedByDisorder > senario->disorder.PlaceEndedAffectedByDisorder)
+					senario->disorder.PlaceStartedAffectedByDisorder = senario->disorder.PlaceEndedAffectedByDisorder;
 				IsThereCarInDisorder = true;
 				delete carPos;
 				break;

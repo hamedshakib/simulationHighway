@@ -3,6 +3,7 @@
 #include <QObject>
 #include "Highway.h"
 //#include "Simulation.h"
+#include "qsharedpointer.h"
 
 class Car : public QObject
 {
@@ -19,6 +20,19 @@ public:
 		double backOfCar;
 	};
 
+	class DriverReaction
+	{
+	public:
+		float MaxDriverReactionTime = 2;
+		bool IsInDriverReaction;
+		float RemainingReactionTime;
+		float FutureAcceleration;
+
+		bool StartReactionTime();
+		float get_RemainingReactionTime();
+	};
+
+	/*
 	enum CarEventType
 	{
 		EnterToHighway,
@@ -29,9 +43,9 @@ public:
 		ExitFromDisturbedArea,
 		ExitFromHighway
 	};
-
+	*/
+	
 	float MaxAcceleration = 2.5;
-	float DriverReactionTime=2;
 	static Car* ProcessEnterCarToHighway(Highway* highway);
 
 
@@ -40,7 +54,7 @@ public slots:
 	float get_Speed();
 	bool ChangeSpeed(float amount);
 
-	void set_Acceleration(float acceleration);
+	void set_Acceleration(float acceleration, bool NeedReactTime = false);
 	float get_Acceleration();
 
 	bool set_Position(double frontOfCarPosition);
@@ -50,8 +64,8 @@ public slots:
 	double MoveCar(double time);
 	double ProcessMoveCar(double time, Highway* highway);
 
-	bool StartReactionTime();
-	float get_RemainingReactionTime();
+	DriverReaction get_DriverReaction();
+	bool CheckAndApply_ChangeAccelerationByDriver(double time);
 	//bool CheckAndApplyAcceleration(double time, Highway* highway);
 	//bool ProcessAccelerationAfterMove(double time, Highway* highway,Simulation::Disorder::DisorderStatus status);
 	//bool ProcessCheckAndChangeAcceleration(double time, Highway* highway, Simulation::Disorder::DisorderStatus status);
@@ -61,9 +75,9 @@ public slots:
 private:      
 	float m_Speed;
 	float m_Acceleration;
-	float m_RemainingReactionTime;
+	DriverReaction m_Reaction;
 	CarPosition m_CarPosition;
-	CarEventType nextCarEventType;
+	//CarEventType nextCarEventType;
 
 
 

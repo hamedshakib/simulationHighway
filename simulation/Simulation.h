@@ -70,7 +70,7 @@ public:
 		};
 		Disorder disorder;
 		double TimeOfStartOfSourceOfDisorder = 0;
-		double TimeOfEndOfSourceOfDisorder = 600;
+		double TimeOfEndOfSourceOfDisorder = 900;
 		QList<Car*> CarsInHighwaySenario;
 		float MaximumSpeedAllowedInPlacesBeforeDisturbance;
 		//double LocationRangeNearToDisorder = 192;
