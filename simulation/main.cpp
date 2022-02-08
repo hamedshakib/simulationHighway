@@ -1,5 +1,4 @@
 #include "qcoreapplication.h"
-#include <qdebug.h>
 #include "Simulation.h"
 
 int main(int argc, char* argv[])

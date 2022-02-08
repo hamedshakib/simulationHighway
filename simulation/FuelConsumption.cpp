@@ -88,7 +88,7 @@ float FuelConsumption::ConvertSpeedToSpeedOnEffectedByWind(float speed, float Wi
 
 float FuelConsumption::ConvertTemperatureToEffectOnEngineEfficiency(int temperature)
 {
-	return 1-((float)(temperature - 10) * 0.0005);
+	return 1 - ((float)temperature - 10) * 0.0005;
 }
 
 double FuelConsumption::Calculate(double travelledDistance, Car* car, Highway* highway)

@@ -58,11 +58,12 @@ bool Simulation::Run()
 		SimulationOfOneRound();
 
 		
-		qDebug() << "END Round" << CurrentRoundNumber;
-		qDebug() << "Main Simulation Time:" << CurrentTime;
-		qDebug() << " fuel Consumption senaroi 1:" << senario1->TotalFuelConsumption;
-		qDebug() << " fuel Consumption senaroi 2:" << senario2->TotalFuelConsumption;
-		qDebug() << " Percentage of fuel Consumption senaroi 1/senaroi 2:" << (senario1->TotalFuelConsumption / senario2->TotalFuelConsumption)*100<<"\n";
+		qInfo() << "END Round" << CurrentRoundNumber;
+		qInfo() << "Main Simulation Time:" << CurrentTime<<"s";
+		qInfo() << " fuel Consumption senaroi 1:" << senario1->TotalFuelConsumption<<" J";
+		qInfo() << " fuel Consumption senaroi 2:" << senario2->TotalFuelConsumption<<" J";
+		qInfo() << " amount of Consumption savings:"<< senario2->TotalFuelConsumption -senario1->TotalFuelConsumption << " J";
+		qInfo() << " Percentage of Consumption savings" << (senario2->TotalFuelConsumption - senario1->TotalFuelConsumption) / (senario2->TotalFuelConsumption)<<"%\n";
 	}
 
 	return true;
